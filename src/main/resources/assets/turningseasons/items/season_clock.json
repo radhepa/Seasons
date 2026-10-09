@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "property": "minecraft:component",
+    "component": "turningseasons:season",
+    "cases": [
+      { "when": "spring", "model": { "type": "minecraft:model", "model": "turningseasons:item/season_clock_spring" } },
+      { "when": "summer", "model": { "type": "minecraft:model", "model": "turningseasons:item/season_clock_summer" } },
+      { "when": "autumn", "model": { "type": "minecraft:model", "model": "turningseasons:item/season_clock_autumn" } },
+      { "when": "winter", "model": { "type": "minecraft:model", "model": "turningseasons:item/season_clock_winter" } }
+    ],
+    "fallback": { "type": "minecraft:model", "model": "turningseasons:item/season_clock_spring" }
+  }
+}

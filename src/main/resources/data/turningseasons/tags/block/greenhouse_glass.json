@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:glass",
+    "minecraft:glass_pane",
+    "minecraft:tinted_glass",
+    { "id": "#c:glass_blocks", "required": false },
+    { "id": "#c:glass_panes", "required": false }
+  ]
+}

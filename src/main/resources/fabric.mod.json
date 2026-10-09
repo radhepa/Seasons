@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "turningseasons",
+	"version": "${version}",
+	"name": "Turning Seasons",
+	"description": "Spring, summer, autumn and winter: grass and leaves change colour, leaves fall, snow comes and melts, crops grow by season and sleep in winter unless under glass, and rain, breeding and spawns follow the calendar.",
+	"authors": ["minal"],
+	"contact": {
+		"sources": "https://github.com/radhepa/Seasons"
+	},
+	"license": "MIT",
+	"icon": "assets/turningseasons/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["dev.turningseasons.TurningSeasons"],
+		"client": ["dev.turningseasons.client.TurningSeasonsClient"]
+	},
+	"mixins": [
+		"turningseasons.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"villagefriends": "*",
+		"nsvmobs": "*"
+	}
+}

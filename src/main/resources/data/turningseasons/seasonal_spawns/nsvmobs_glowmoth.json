@@ -1,0 +1,5 @@
+{
+  "requires_mod": "nsvmobs",
+  "entities": ["nsvmobs:glowmoth"],
+  "weights": { "spring": 1.2, "summer": 3.0, "autumn": 0.6, "winter": 0.0 }
+}

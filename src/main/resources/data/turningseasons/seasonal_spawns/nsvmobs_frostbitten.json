@@ -1,0 +1,5 @@
+{
+  "requires_mod": "nsvmobs",
+  "entities": ["nsvmobs:frostbitten", "nsvmobs:penguin"],
+  "weights": { "spring": 0.6, "summer": 0.25, "autumn": 1.0, "winter": 3.0 }
+}

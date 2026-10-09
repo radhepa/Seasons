@@ -1,0 +1,4 @@
+{
+  "entities": ["minecraft:cow", "minecraft:sheep", "minecraft:pig", "minecraft:chicken", "minecraft:rabbit"],
+  "weights": { "spring": 1.6, "summer": 1.2, "autumn": 1.0, "winter": 0.5 }
+}

@@ -1,0 +1,4 @@
+{
+  "entities": ["minecraft:wolf", "minecraft:fox", "minecraft:stray"],
+  "weights": { "spring": 1.0, "summer": 0.8, "autumn": 1.2, "winter": 1.8 }
+}

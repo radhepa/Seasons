@@ -1,0 +1,5 @@
+{
+  "requires_mod": "nsvmobs",
+  "entities": ["nsvmobs:scarecrow"],
+  "weights": { "spring": 0.4, "summer": 0.6, "autumn": 3.0, "winter": 0.3 }
+}

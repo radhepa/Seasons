@@ -1,0 +1,4 @@
+{
+  "entities": ["#minecraft:skeletons", "minecraft:zombie", "minecraft:husk", "minecraft:spider"],
+  "weights": { "spring": 1.0, "summer": 0.9, "autumn": 1.25, "winter": 1.1 }
+}

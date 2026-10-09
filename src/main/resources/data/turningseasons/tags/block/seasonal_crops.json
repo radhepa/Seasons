@@ -1,0 +1,9 @@
+{
+  "values": [
+    "#minecraft:crops",
+    "#minecraft:saplings",
+    "minecraft:sweet_berry_bush",
+    "minecraft:cocoa",
+    { "id": "#c:crops", "required": false }
+  ]
+}

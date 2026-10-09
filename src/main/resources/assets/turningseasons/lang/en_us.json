@@ -1,0 +1,11 @@
+{
+  "item.turningseasons.season_clock": "Season Clock",
+  "season.turningseasons.spring": "Spring",
+  "season.turningseasons.summer": "Summer",
+  "season.turningseasons.autumn": "Autumn",
+  "season.turningseasons.winter": "Winter",
+  "hud.turningseasons.day": "Day %s of %s",
+  "commands.turningseasons.query": "It's %s, day %s of %s (year %s). %s comes in %s day(s).",
+  "commands.turningseasons.set": "Calendar moved. %s",
+  "commands.turningseasons.unknown": "Unknown season: %s (try spring, summer, autumn or winter)"
+}

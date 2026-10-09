@@ -1,0 +1,13 @@
+{
+	"schemaVersion": 1,
+	"id": "turningseasons-gametest",
+	"version": "1.0.0",
+	"name": "Turning Seasons game tests",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-client-gametest": ["dev.turningseasons.test.SeasonsClientTest"]
+	},
+	"depends": {
+		"turningseasons": "*"
+	}
+}
