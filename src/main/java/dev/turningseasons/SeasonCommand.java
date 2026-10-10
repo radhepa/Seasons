@@ -21,6 +21,8 @@ import net.minecraft.network.chat.Component;
  * {@code /season}                         what season and day it is (anyone)
  * {@code /season set <season> [day]}      jump forward to that season's morning (operators)
  * {@code /season advance <days>}          move the calendar forward some days (operators)
+ * {@code /season length}                  how many days each season lasts (anyone)
+ * {@code /season length <days>}           change this world's season length (operators / cheats on)
  */
 public final class SeasonCommand {
     private SeasonCommand() {}
@@ -39,10 +41,15 @@ public final class SeasonCommand {
                                         .executes(ctx -> set(ctx, IntegerArgumentType.getInteger(ctx, "day"))))))
                 .then(Commands.literal("advance").requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                         .then(Commands.argument("days", IntegerArgumentType.integer(1, 10000))
-                                .executes(SeasonCommand::advance))));
+                                .executes(SeasonCommand::advance)))
+                .then(Commands.literal("length")
+                        .executes(SeasonCommand::length)
+                        .then(Commands.argument("days", IntegerArgumentType.integer(1, 10000))
+                                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                                .executes(SeasonCommand::setLength))));
     }
 
-    /** "It's Autumn, day 3 of 7 (year 1). Winter comes in 5 days." */
+    /** "It's Autumn, day 3 of 30 (year 1). Winter comes in 28 days." */
     public static Component describe(CalendarDate date) {
         return Component.translatable("commands.turningseasons.query", date.season().displayName(), date.dayOfSeason(),
                 date.daysPerSeason(), date.year(), date.season().next().displayName(), date.daysUntilNextSeason());
@@ -64,6 +71,20 @@ public final class SeasonCommand {
         CalendarDate date = Calendar.server().date();
         ctx.getSource().sendSuccess(() -> Component.translatable("commands.turningseasons.set", describe(date)), true);
         return 1;
+    }
+
+    private static int length(CommandContext<CommandSourceStack> ctx) {
+        int days = Calendar.server().daysPerSeason();
+        ctx.getSource().sendSuccess(() -> Component.translatable("commands.turningseasons.length", days, days * 4), false);
+        return days;
+    }
+
+    private static int setLength(CommandContext<CommandSourceStack> ctx) {
+        int days = IntegerArgumentType.getInteger(ctx, "days");
+        SeasonsServer.setDaysPerSeason(ctx.getSource().getServer(), days);
+        CalendarDate date = Calendar.server().date();
+        ctx.getSource().sendSuccess(() -> Component.translatable("commands.turningseasons.length.set", days, describe(date)), true);
+        return days;
     }
 
     private static int advance(CommandContext<CommandSourceStack> ctx) {

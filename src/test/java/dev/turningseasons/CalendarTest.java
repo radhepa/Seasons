@@ -1,6 +1,7 @@
 package dev.turningseasons;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,6 +73,42 @@ class CalendarTest {
         assertEquals(1, SeasonState.step(5000, 5001));
         assertEquals(11000, SeasonState.step(13000, 24000), "sleeping moves the seasons");
         assertEquals(0, SeasonState.step(24000, 1000), "/time set back never rewinds");
+    }
+
+    @Test
+    void changingTheLengthKeepsTheDate() {
+        long autumnDay3 = 2L * 7 * DAY + 2L * DAY + 9000;          // year 1, autumn day 3 of 7, mid-afternoon
+        long longer = SeasonState.rescale(autumnDay3, 7, 30);
+        CalendarDate d = CalendarDate.of(longer, 30);
+        assertEquals(Season.AUTUMN, d.season());
+        assertEquals(3, d.dayOfSeason());
+        assertEquals(1, d.year());
+        assertEquals(9000, longer % DAY, "same time of day");
+
+        long year3WinterDay20 = 2L * 4 * 30 * DAY + 3L * 30 * DAY + 19L * DAY;
+        CalendarDate shorter = CalendarDate.of(SeasonState.rescale(year3WinterDay20, 30, 7), 7);
+        assertEquals(Season.WINTER, shorter.season());
+        assertEquals(7, shorter.dayOfSeason(), "day 20 doesn't exist in a 7-day season, so it's the last day");
+        assertEquals(3, shorter.year());
+    }
+
+    @Test
+    void oldConfigFilesMoveToThirtyDaySeasons() {
+        SeasonConfig untouched = new SeasonConfig();
+        untouched.daysPerSeason = 7;                                 // what 1.0.0 wrote
+        assertTrue(SeasonConfig.upgrade(untouched));
+        assertEquals(30, untouched.daysPerSeason);
+
+        SeasonConfig edited = new SeasonConfig();
+        edited.daysPerSeason = 12;                                   // somebody chose this, keep it
+        assertTrue(SeasonConfig.upgrade(edited));
+        assertEquals(12, edited.daysPerSeason);
+
+        SeasonConfig current = new SeasonConfig();
+        current.configVersion = SeasonConfig.CONFIG_VERSION;
+        current.daysPerSeason = 7;                                   // chosen after the upgrade, keep it
+        assertFalse(SeasonConfig.upgrade(current));
+        assertEquals(7, current.daysPerSeason);
     }
 
     @Test

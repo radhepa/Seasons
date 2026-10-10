@@ -20,6 +20,7 @@ public final class SeasonsServer {
     public static void start(MinecraftServer server) {
         SeasonClimate.setServerThread(Thread.currentThread());
         state = server.overworld().getDataStorage().computeIfAbsent(SeasonState.TYPE);
+        state.initDaysPerSeason(SeasonConfig.get().daysPerSeason);
         lastDay = -1;
         lastSeason = null;
         publish(server, false);
@@ -51,10 +52,18 @@ public final class SeasonsServer {
         publish(server, true);
     }
 
+    /** Changes this world's season length (the season and day stay put) and tells everyone. */
+    public static void setDaysPerSeason(MinecraftServer server, int days) {
+        if (state == null) start(server);
+        state.setDaysPerSeason(days);
+        lastDay = -1;
+        publish(server, true);
+    }
+
     /** Copies the saved state into {@link Calendar#server()}; on a new day syncs clients, on a new season fires the event. */
     private static void publish(MinecraftServer server, boolean announce) {
         SeasonConfig config = SeasonConfig.get();
-        Calendar.server().update(state.elapsed(), config.daysPerSeason, config.seasonalDimensions);
+        Calendar.server().update(state.elapsed(), state.daysPerSeason(), config.seasonalDimensions);
         CalendarDate date = Calendar.server().date();
         SeasonClimate.setTemperatureShift(date.season() == Season.WINTER ? -config.winterChill : 0);
         if (date.dayNumber() != lastDay) {

@@ -7,5 +7,7 @@
   "hud.turningseasons.day": "Day %s of %s",
   "commands.turningseasons.query": "It's %s, day %s of %s (year %s). %s comes in %s day(s).",
   "commands.turningseasons.set": "Calendar moved. %s",
+  "commands.turningseasons.length": "Each season lasts %s days (a year is %s days).",
+  "commands.turningseasons.length.set": "Seasons now last %s days. %s",
   "commands.turningseasons.unknown": "Unknown season: %s (try spring, summer, autumn or winter)"
 }

@@ -74,6 +74,8 @@ public class SeasonsClientTest implements FabricClientGameTest {
             TestServerContext server = world.getServer();
             buildScene(server);
             ctx.waitTicks(20);
+            check(server.computeOnServer(srv -> TurningSeasonsApi.getDaysPerSeason(srv.overworld())) == 30,
+                    "a new world has 30-day seasons");
 
             // ---- summer: vanilla colours, crops grow outdoors
             setSeason(ctx, server, Season.SUMMER);
@@ -163,6 +165,10 @@ public class SeasonsClientTest implements FabricClientGameTest {
                     .get(SeasonClockItem.SEASON) == Season.SPRING, "the clock's face follows the season"));
             shoot(ctx, "seasons-06-hud");
 
+            // ---- /season length: the season and day stay put, clients hear about it
+            checkLength(ctx, server, 7, 7);        // day 16 doesn't exist in a 7-day season: the last day
+            checkLength(ctx, server, 30, 7);
+
             check(changes.equals(List.of("spring>summer", "summer>autumn", "autumn>winter", "winter>spring")),
                     "season-changed event fired once per change: " + changes);
         }
@@ -186,15 +192,28 @@ public class SeasonsClientTest implements FabricClientGameTest {
         }
     }
 
+    /** Jumps to the middle of {@code season} (day 16 of 30), when its colours are at their fullest. */
     static void setSeason(ClientGameTestContext ctx, TestServerContext server, Season season) {
-        server.runCommand("season set " + season.id() + " 4");
+        int day = server.computeOnServer(srv -> TurningSeasonsApi.getDaysPerSeason(srv.overworld())) / 2 + 1;
+        server.runCommand("season set " + season.id() + " " + day);
         ctx.waitFor(client -> client.level != null && Calendar.client().date().season() == season);
         ctx.waitTicks(10);
         CalendarDate serverDate = server.computeOnServer(srv -> TurningSeasonsApi.getDate(srv.overworld()));
         CalendarDate clientDate = ctx.computeOnClient(client -> TurningSeasonsApi.getDate(client.level));
-        check(serverDate.season() == season && serverDate.dayOfSeason() == 4, "server is on " + season + " day 4: " + serverDate);
+        check(serverDate.season() == season && serverDate.dayOfSeason() == day, "server is on " + season + " day " + day + ": " + serverDate);
         check(clientDate.equals(serverDate), "client calendar matches the server: " + clientDate + " vs " + serverDate);
         check(ctx.computeOnClient(client -> TurningSeasonsApi.hasSeasons(client.level)), "the overworld has seasons");
+    }
+
+    static void checkLength(ClientGameTestContext ctx, TestServerContext server, int days, int expectedDay) {
+        CalendarDate before = server.computeOnServer(srv -> TurningSeasonsApi.getDate(srv.overworld()));
+        server.runCommand("season length " + days);
+        ctx.waitFor(client -> client.level != null && Calendar.client().daysPerSeason() == days);
+        CalendarDate after = server.computeOnServer(srv -> TurningSeasonsApi.getDate(srv.overworld()));
+        check(after.daysPerSeason() == days, "seasons now last " + days + " days: " + after);
+        check(after.season() == before.season() && after.year() == before.year() && after.dayOfSeason() == expectedDay,
+                "changing the length keeps the date: " + before + " -> " + after);
+        check(ctx.computeOnClient(client -> TurningSeasonsApi.getDate(client.level)).equals(after), "the client got the new length");
     }
 
     static void photograph(ClientGameTestContext ctx, TestServerContext server, String name) {

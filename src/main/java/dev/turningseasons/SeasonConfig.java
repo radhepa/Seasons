@@ -44,8 +44,13 @@ public final class SeasonConfig {
         }
     }
 
-    /** Minecraft days per season (a full year is four times this). */
-    public int daysPerSeason = 7;
+    public static final int DEFAULT_DAYS_PER_SEASON = 30;
+
+    /**
+     * Minecraft days per season (a full year is four times this) for new worlds. Each world keeps
+     * its own length after that; change it in game with {@code /season length <days>}.
+     */
+    public int daysPerSeason = DEFAULT_DAYS_PER_SEASON;
     /** Dimensions that have seasons. The calendar itself always follows the Overworld clock. */
     public List<String> seasonalDimensions = new ArrayList<>(List.of("minecraft:overworld"));
 
@@ -75,6 +80,10 @@ public final class SeasonConfig {
     /** Client: when the small season HUD shows: "clock" (holding a season clock), "always" or "never". */
     public String hud = "clock";
 
+    /** Which version of this file it is; files from 1.0.0 have none (0). */
+    public int configVersion;
+    static final int CONFIG_VERSION = 2;
+
     private static SeasonConfig current = new SeasonConfig();
 
     public static SeasonConfig get() {
@@ -96,8 +105,10 @@ public final class SeasonConfig {
                 TurningSeasons.LOGGER.warn("Couldn't read {}, using defaults", file, e);
             }
         }
-        if (loaded == null) {
-            loaded = new SeasonConfig();
+        boolean write = loaded == null || upgrade(loaded);
+        if (loaded == null) loaded = new SeasonConfig();
+        if (write) {
+            loaded.configVersion = CONFIG_VERSION;
             try {
                 Files.createDirectories(file.getParent());
                 try (Writer writer = Files.newBufferedWriter(file)) {
@@ -111,5 +122,13 @@ public final class SeasonConfig {
         if (loaded.seasonalDimensions == null) loaded.seasonalDimensions = new ArrayList<>(List.of("minecraft:overworld"));
         current = loaded;
         return loaded;
+    }
+
+    /** Brings a file from an older version up to date; true if it changed and should be saved. */
+    static boolean upgrade(SeasonConfig config) {
+        if (config.configVersion >= CONFIG_VERSION) return false;
+        // 1.0.0 wrote its 7-day default into every new file, so a 7 there means "the default"
+        if (config.daysPerSeason == 7) config.daysPerSeason = DEFAULT_DAYS_PER_SEASON;
+        return true;
     }
 }

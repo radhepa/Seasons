@@ -35,6 +35,6 @@ public final class TurningSeasons implements ModInitializer {
         CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> SeasonClimate.tagBiomes(registries));
         CommandRegistrationCallback.EVENT.register((dispatcher, registries, environment) -> SeasonCommand.register(dispatcher));
         SeasonalSpawns.register();
-        LOGGER.info("Turning Seasons ready: {} days per season", SeasonConfig.get().daysPerSeason);
+        LOGGER.info("Turning Seasons ready: {} days per season in new worlds", SeasonConfig.get().daysPerSeason);
     }
 }

@@ -3,8 +3,9 @@
 Spring, summer, autumn and winter for Minecraft 26.3 (Fabric). A standalone mod that plays well
 with Village Friends and Not-So-Vanilla Mobs but needs neither.
 
-- **A calendar.** Each season lasts 7 Minecraft days by default (a year is 28 days). The server
-  keeps the calendar and syncs it to everyone. Sleeping through the night moves it forward too.
+- **A calendar.** Each season lasts 30 Minecraft days by default (a year is 120 days); change it
+  per world with `/season length <days>`. The server keeps the calendar and syncs it to everyone.
+  Sleeping through the night moves it forward too.
 - **Looks.** Grass and leaves slowly change colour through the year: fresh green in spring,
   vanilla in summer, gold and orange in autumn, dull and brown in winter. In autumn red, orange and
   yellow leaves drift down from the trees. In winter temperate biomes (plains, forests, taiga,
@@ -36,6 +37,8 @@ The same test farm through the year: an open wheat row, a glass greenhouse, a po
 | `/season` | tells you the season, the day and how long until the next season |
 | `/season set <spring\|summer\|autumn\|winter> [day]` | jump forward to that season (operators) |
 | `/season advance <days>` | move the calendar forward (operators) |
+| `/season length` | how many days each season lasts |
+| `/season length <days>` | change this world's season length, 1 to 10000 days (operators, or cheats on in single player). The season and day stay where they are; if the day doesn't exist any more you land on the season's last day |
 | **Season Clock** (Tools & Utilities tab) | its face shows the season; right-click for the date. Holding it shows a small card in the top-left corner with the season, the day and a progress bar |
 
 Craft the clock from a vanilla **clock + any sapling** (shapeless), or take it from the creative
@@ -47,7 +50,7 @@ menu (`/give @s turningseasons:season_clock`).
 
 | Setting | Default | |
 |---|---|---|
-| `daysPerSeason` | 7 | season length in Minecraft days |
+| `daysPerSeason` | 30 | season length in Minecraft days for **new** worlds (existing worlds keep theirs; use `/season length`) |
 | `seasonalDimensions` | `["minecraft:overworld"]` | which dimensions have seasons |
 | `cropGrowth` | 1.25 / 1.5 / 1.0 / 0.5 | growth speed per season |
 | `winterDormancy` | true | open-air crops stop in winter |

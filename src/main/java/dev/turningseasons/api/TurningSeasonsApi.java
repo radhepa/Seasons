@@ -30,7 +30,7 @@ public final class TurningSeasonsApi {
         return date(level).dayOfSeason();
     }
 
-    /** How many Minecraft days each season lasts (7 unless the config changes it). */
+    /** How many Minecraft days each season lasts in this world (30 unless the config or {@code /season length} changes it). */
     public static int getDaysPerSeason(Level level) {
         return date(level).daysPerSeason();
     }

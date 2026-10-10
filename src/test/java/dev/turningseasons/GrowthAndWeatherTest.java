@@ -62,6 +62,6 @@ class GrowthAndWeatherTest {
     void defaultsMatchTheDesign() {
         assertTrue(config.rainFrequency.get(Season.SPRING) > 1 && config.rainFrequency.get(Season.SUMMER) < 1);
         assertTrue(config.breedingCooldown.get(Season.SPRING) < 1 && config.breedingCooldown.get(Season.WINTER) > 1);
-        assertEquals(7, config.daysPerSeason);
+        assertEquals(30, config.daysPerSeason);
     }
 }

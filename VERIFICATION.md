@@ -1,5 +1,24 @@
 # Verification
 
+## 1.1.0 (2026-10-10): 30-day seasons and `/season length`
+
+### Unit tests: `gradlew test`: 21 passed, 0 failed
+New in `CalendarTest`: changing the length keeps the season, day, year and time of day (autumn
+day 3 of 7 becomes autumn day 3 of 30; winter day 20 of 30 becomes winter day 7 of 7), and a
+1.0.0 config file with the automatic `7` moves to `30` while a value someone chose is kept.
+
+### Client game test: `SeasonsClientTest`: **passed** (BUILD SUCCESSFUL)
+- The run folder still had the 1.0.0 config (`"daysPerSeason": 7`); it was upgraded on start
+  ("30 days per season in new worlds") and the new world had 30-day seasons.
+- The four seasons were run on day 16 of 30 (mid-season, as day 4 of 7 was before). All 1.0.0
+  checks pass unchanged.
+- `/season length 7` on spring day 16 of 30 gave spring day 7 of 7; `/season length 30` then gave
+  spring day 7 of 30. The year stayed the same and the client got the new length straight away.
+  No extra season-changed events fired (the event list is still exactly the four changes).
+- HUD screenshot reads "Spring, Day 16 of 30".
+
+Not run for 1.1.0: the modpack (`-PcompatMods`) run.
+
 ## 1.0.0 (2026-10-09)
 
 Environment: Minecraft 26.3, Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, JDK 25.0.4, Windows 11.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0
+- Seasons now last **30 days** by default (a year is 120 days), up from 7.
+- `/season length` shows the season length; `/season length <days>` changes it for this world
+  (operators, or cheats on in single player). The current season and day are kept, and clients
+  update straight away.
+- The season length is saved in each world. `daysPerSeason` in the config is now the length for
+  new worlds.
+- Config files written by 1.0.0 that still have the old automatic `7` move to `30`; any other value
+  you chose is kept.
+
 ## 1.0.0
 First release, for Minecraft 26.3 (Fabric Loader 0.19.5, Fabric API 0.161.0+26.3, Java 25).
 

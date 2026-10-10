@@ -16,7 +16,7 @@ public final class Calendar {
     private static final Calendar SERVER = new Calendar(), CLIENT = new Calendar();
 
     private volatile long elapsed;
-    private volatile int daysPerSeason = 7;
+    private volatile int daysPerSeason = SeasonConfig.DEFAULT_DAYS_PER_SEASON;
     private volatile Set<String> dimensions = Set.of("minecraft:overworld");
 
     public static Calendar server() {

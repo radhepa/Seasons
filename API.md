@@ -29,7 +29,7 @@ saved calendar, on a client the copy the server last synced.
 | `hasSeasons(Level)` | true if this dimension has seasons (by default only the Overworld) |
 | `getSeason(Level)` | `Season.SPRING`, `SUMMER`, `AUTUMN` or `WINTER` |
 | `getDayOfSeason(Level)` | 1 .. days per season |
-| `getDaysPerSeason(Level)` | season length in Minecraft days (default 7) |
+| `getDaysPerSeason(Level)` | season length in Minecraft days (default 30; can change in game with `/season length`) |
 | `getSeasonProgress(Level)` | 0.0 at the start of the season, approaching 1.0 at its end |
 | `getYear(Level)` | 1, 2, 3, ... |
 | `getDate(Level)` | all of the above in one `CalendarDate` record |
